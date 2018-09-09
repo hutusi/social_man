@@ -18,11 +18,11 @@ RSpec.describe :ActionSubject do
 
   describe 'like' do
     before do
-      user.likes article
+      user.like article
     end
 
     it "active to article" do
-      expect(user.likes? article).to be true
+      expect(user.like? article).to be true
       expect(user.liked_articles.count).to eq 1
       expect(user.liked_articles[0]).to eq article
     end

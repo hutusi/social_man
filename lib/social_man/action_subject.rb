@@ -15,51 +15,74 @@ module SocialMan
     end
 
     module InstanceMethods
-      def take_action_on(action_object)
-        Action.create action_type: 'Action', action_subject: self, action_object: action_object
+      def take_action_on(action_object, action_type = 'Action')
+        Action.create action_type: action_type, action_subject: self, action_object: action_object
       end
 
-      def active_to?(action_object)
-        Action.exists? action_type: 'Action', action_subject: self, action_object: action_object
+      def active_to?(action_object, action_type = 'Action')
+        Action.exists? action_type: action_type, action_subject: self, action_object: action_object
       end
 
-      def likes(action_object)
-        Action.create action_type: 'Like', action_subject: self, action_object: action_object
+      def undo_action_on(action_object, action_type = 'Action')
+        Action.destroy action_type: action_type, action_subject: self, action_object: action_object
       end
 
-      # def likes!(object)
-      #   likes object || raise Exception
-      # end
+      SocialMan.actions.each do |action|
+        define_method action.action do |action_object|
+          take_action_on action_object, action.type
+        end
 
-      def likes?(action_object)
-        Action.exists? action_type: 'Like', action_subject: self, action_object: action_object
+        # define_method "#{action.action}!" do |action_object|
+        #   send action.action, action_object || raise Exception
+        # end
+
+        define_method "#{action.action}?" do |action_object|
+          active_to? action_object, action.type
+        end
+
+        define_method action.undo do |action_object|
+          undo_action_on action_object, action.type
+        end
+
+        # define_method "#{action.undo}!" do |action_object|
+        #   send action.undo, action_object || raise Exception
+        # end
+
+        # todo
+        # define_method action.all_subjects do |action_object|
+        #   ids = active_actions.pluck(:action_object_id)
+        #   object_class.where id: ids
+        # end
       end
 
-      def unlike(action_object)
-        Action.destroy action_type: 'Like', action_subject: self, action_object: action_object
-      end
-
-      # def unlike!(object)
-      #   unlikes object || raise Exception
-      # end
-
+      # objects_prefix 
       def method_missing(method_name, *args)
-        method_name_string = method_name.to_s
-        if method_name_string.start_with?('liked_')
-          object_name = method_name_string.remove 'liked_'
-          object_type = object_name.singularize.camelize
-          object_class = object_type.constantize
+        action_type, object_class = find_object_class method_name.to_s
 
-          if object_class.nil?
-            super
-          else
-            ids = active_actions.where(action_type: 'Like').pluck(:action_object_id)
-            object_class.where id: ids
-          end
-        else
+        if object_class.nil?
           super
+        else
+          ids = active_actions.where(action_type: action_type).pluck(:action_object_id)
+          object_class.where id: ids
         end
       end
+
+      private
+
+        def find_object_class(method_name)
+          action_type = ''
+          object_type = nil
+          SocialMan.actions.each do |action|
+            if method_name.start_with? action.objects_prefix
+              action_type = action.type
+              object_name = method_name.remove action.objects_prefix
+              object_type = object_name.singularize.camelize unless object_name.blank?
+              break
+            end
+          end
+
+          [action_type, object_type&.constantize]
+        end
     end
 
   end

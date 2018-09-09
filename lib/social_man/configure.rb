@@ -11,12 +11,20 @@ module SocialMan
     
     @@actions = []
 
-    def actions=(*actions)
-      @@actions = actions
+    def configure
+      yield self if block_given?
+    end
+
+    def actions=(actions)
+      actions.each { |action| @@actions << SocialMan::ActionThesaurus.new(action) }
     end
 
     def actions
       @@actions
+    end
+
+    def define_action(action, **options)
+      @@actions << SocialMan::ActionThesaurus.new(action, options)
     end
   end
 end
