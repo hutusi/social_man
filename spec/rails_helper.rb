@@ -10,7 +10,7 @@ require 'rspec/rails'
 ActiveRecord::Migrator.migrations_paths = [File.expand_path("../../spec/dummy/db/migrate", __FILE__)]
 ActiveRecord::Migrator.migrations_paths << File.expand_path("../../db/migrate", __FILE__)
 
-load(File.dirname(__FILE__) + '/dummy/db/schema.rb')
+# load(File.dirname(__FILE__) + '/dummy/db/schema.rb')
 
 require "factory_bot"
 

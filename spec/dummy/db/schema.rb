@@ -11,6 +11,16 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 0) do
+
+  create_table :actions do |t|
+    t.references :subject, polymorphic: true
+    t.string :type
+    t.string :options
+    t.references :object, polymorphic: true
+
+    t.timestamps
+  end
+  
   create_table :users, force: true do |t|
     t.column :name, :string
   end
