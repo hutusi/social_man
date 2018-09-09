@@ -18,11 +18,12 @@ module SocialMan
     end
 
     module InstanceMethods
-      def take_action_on(action_object)
-        Action.create 
+      def take_action_on(object)
+        Action.create subject: self, object: object
       end
 
-      def active_to?(action_object)
+      def active_to?(object)
+        Action.exists? subject: self, object: object
       end
     end
 

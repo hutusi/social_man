@@ -12,7 +12,7 @@ RSpec.describe :ActionSubject do
 
     it "has a version number" do
       expect(user.active_to? article).to be true
-      expect(article.active_to? user).to be true
+      expect(article.passive_to? user).to be true
     end
   end
 end
