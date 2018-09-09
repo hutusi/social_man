@@ -7,39 +7,36 @@ module SocialMan
 
     module ClassMethods
       def acts_as_action_subject
-        has_many :active_actions, class_name: 'Action',
+        has_many :active_actions, class_name: 'Action', as: :action_subject,
               dependent: :destroy
-        # has_many :action_objects, class_name: 'Action',
-        #         source: :subject,
-        #         through: :active_actions
 
         include SocialMan::ActionSubject::InstanceMethods
       end
     end
 
     module InstanceMethods
-      def take_action_on(object)
-        Action.create subject: self, object: object
+      def take_action_on(action_object)
+        Action.create action_type: 'Action', action_subject: self, action_object: action_object
       end
 
-      def active_to?(object)
-        Action.exists? subject: self, object: object
+      def active_to?(action_object)
+        Action.exists? action_type: 'Action', action_subject: self, action_object: action_object
       end
 
-      def likes(object)
-        Like.create subject: self, object: object
+      def likes(action_object)
+        Action.create action_type: 'Like', action_subject: self, action_object: action_object
       end
 
       # def likes!(object)
       #   likes object || raise Exception
       # end
 
-      def likes?(object)
-        Like.exists? subject: self, object: object
+      def likes?(action_object)
+        Action.exists? action_type: 'Like', action_subject: self, action_object: action_object
       end
 
-      def unlike(object)
-        Like.destroy subject: self, object: object
+      def unlike(action_object)
+        Action.destroy action_type: 'Like', action_subject: self, action_object: action_object
       end
 
       # def unlike!(object)
@@ -56,7 +53,7 @@ module SocialMan
           if object_class.nil?
             super
           else
-            ids = Like.where(subject: self, object_type: object_type).pluck(:object_id)
+            ids = active_actions.where(action_type: 'Like').pluck(:action_object_id)
             object_class.where id: ids
           end
         else

@@ -8,8 +8,8 @@ module SocialMan
     extend ActiveSupport::Concern
 
     included do
-      belongs_to :subject, polymorphic: true
-      belongs_to :object, polymorphic: true
+      belongs_to :action_subject, polymorphic: true
+      belongs_to :action_object, polymorphic: true
     end
   end
 end

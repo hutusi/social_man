@@ -10,22 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2018_09_09_063634) do
 
-  create_table :actions do |t|
-    t.references :subject, polymorphic: true
-    t.string :type
-    t.string :options
-    t.references :object, polymorphic: true
+  create_table "actions", force: :cascade do |t|
+    t.string "action_subject_type"
+    t.integer "action_subject_id"
+    t.string "action_type"
+    t.string "action_options"
+    t.string "action_object_type"
+    t.integer "action_object_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_object_type", "action_object_id"], name: "index_actions_on_action_object_type_and_action_object_id"
+    t.index ["action_subject_type", "action_subject_id"], name: "index_actions_on_action_subject_type_and_action_subject_id"
+  end
 
-    t.timestamps
-  end
-  
-  create_table :users, force: true do |t|
-    t.column :name, :string
+  create_table "articles", force: :cascade do |t|
+    t.string "title"
   end
 
-  create_table :articles, force: true do |t|
-    t.column :title, :string
+  create_table "users", force: :cascade do |t|
+    t.string "name"
   end
+
 end
