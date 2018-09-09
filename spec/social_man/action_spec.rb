@@ -9,6 +9,8 @@ RSpec.describe :Action do
     its(:type) { should eq 'Like' }
     its(:action) { should eq 'like' }
     its(:undo) { should eq 'unlike' }
+    its(:passive_action) { should eq 'liked_by' }
+    its(:passive_undo) { should eq 'unliked_by' }
     its(:subjects_prefix) { should eq 'liking_' }
     its(:objects_prefix) { should eq 'liked_' }
     its(:all_subjects) { should eq 'likers' }
@@ -21,6 +23,8 @@ RSpec.describe :Action do
     its(:type) { should eq 'Like' }
     its(:action) { should eq 'like' }
     its(:undo) { should eq 'dislike' }
+    its(:passive_action) { should eq 'liked_by' }
+    its(:passive_undo) { should eq 'unliked_by' }
     its(:subjects_prefix) { should eq 'liking_' }
     its(:objects_prefix) { should eq 'liked_' }
     its(:all_subjects) { should eq 'likers' }
@@ -33,6 +37,8 @@ RSpec.describe :Action do
     its(:type) { should eq 'Hack' }
     its(:action) { should eq 'hack' }
     its(:undo) { should eq 'unhack' }
+    its(:passive_action) { should eq 'hacked_by' }
+    its(:passive_undo) { should eq 'unhacked_by' }
     its(:subjects_prefix) { should eq 'hacking_' }
     its(:objects_prefix) { should eq 'hacked_' }
     its(:all_subjects) { should eq 'hackers' }
@@ -45,6 +51,8 @@ RSpec.describe :Action do
     its(:type) { should eq 'Hack' }
     its(:action) { should eq 'hack' }
     its(:undo) { should eq 'recover' }
+    its(:passive_action) { should eq 'hacked_by' }
+    its(:passive_undo) { should eq 'unhacked_by' }
     its(:subjects_prefix) { should eq 'hacked_' }
     its(:objects_prefix) { should eq 'hacked_' }
     its(:all_subjects) { should eq 'hackers' }
@@ -57,6 +65,8 @@ RSpec.describe :Action do
     its(:type) { should eq 'Follow' }
     its(:action) { should eq 'follow' }
     its(:undo) { should eq 'unfollow' }
+    its(:passive_action) { should eq 'followed_by' }
+    its(:passive_undo) { should eq 'unfollowed_by' }
     its(:subjects_prefix) { should eq 'following_' }
     its(:objects_prefix) { should eq 'followed_' }
     its(:all_subjects) { should eq 'followers' }
