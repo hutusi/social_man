@@ -15,13 +15,18 @@ module SocialMan
     end
 
     module InstanceMethods
-      def be_taken_action_by(action_subject)
-        Action.create action_type: 'Action', action_subject: action_subject, action_object: self
+      def taken_action_by(action_subject, action_type = 'Action')
+        Action.create action_type: action_type, action_subject: action_subject, action_object: self
       end
 
-      def passive_to?(action_subject)
-        Action.exists? action_type: 'Action', action_subject: action_subject, action_object: self
+      def passive_to?(action_subject, action_type = 'Action')
+        Action.exists? action_type: action_type, action_subject: action_subject, action_object: self
       end
+
+      def undo_action_by(action_subject, action_type = 'Action')
+        Action.destroy action_type: action_type, action_subject: action_subject, action_object: self
+      end
+
     end
 
   end

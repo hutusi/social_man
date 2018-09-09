@@ -16,5 +16,9 @@ class CreateActions < ActiveRecord::Migration[5.2]
     create_table :articles, force: true do |t|
       t.column :title, :string
     end
+
+    create_table :comments, force: true do |t|
+      t.column :body, :string
+    end
   end
 end

@@ -51,4 +51,16 @@ RSpec.describe :Action do
     its(:all_objects) { should eq 'hackables' }
   end
 
+  describe 'default follow' do
+    subject { SocialMan::ActionThesaurus.new :follow }
+    its(:name) { should eq :follow }
+    its(:type) { should eq 'Follow' }
+    its(:action) { should eq 'follow' }
+    its(:undo) { should eq 'unfollow' }
+    its(:subjects_prefix) { should eq 'following_' }
+    its(:objects_prefix) { should eq 'followed_' }
+    its(:all_subjects) { should eq 'followers' }
+    its(:all_objects) { should eq 'followees' }
+  end
+
 end

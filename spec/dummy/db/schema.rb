@@ -29,6 +29,10 @@ ActiveRecord::Schema.define(version: 2018_09_09_063634) do
     t.string "title"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.string "body"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
   end

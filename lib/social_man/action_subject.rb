@@ -24,7 +24,8 @@ module SocialMan
       end
 
       def undo_action_on(action_object, action_type = 'Action')
-        Action.destroy action_type: action_type, action_subject: self, action_object: action_object
+        Action.where(action_type: action_type, action_subject: self, action_object: action_object)
+              .destroy_all
       end
 
       SocialMan.actions.each do |action|
@@ -47,6 +48,10 @@ module SocialMan
         # define_method "#{action.undo}!" do |action_object|
         #   send action.undo, action_object || raise Exception
         # end
+
+        define_method "#{action.undo}?" do |action_object|
+          !active_to? action_object, action.type
+        end
 
         # todo
         # define_method action.all_subjects do |action_object|

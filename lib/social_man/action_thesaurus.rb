@@ -47,7 +47,7 @@ module SocialMan
           %w(like unlike liking liked liker likeable),
           %w(star unstar starring starred starrer starable),
           %w(block unblock blocking blocked blockers blockable),
-          %w(follow unfollow blocking blocked follower followee),
+          %w(follow unfollow following followed follower followee),
           %w(vote unvote voting voted voter votable)
         ]
 
