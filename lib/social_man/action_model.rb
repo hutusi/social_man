@@ -1,4 +1,8 @@
 # frozen_string_literal: true
+
+# 
+# Like, Star
+
 module SocialMan
   module ActionModel
     extend ActiveSupport::Concern

@@ -25,6 +25,44 @@ module SocialMan
       def active_to?(object)
         Action.exists? subject: self, object: object
       end
+
+      def likes(object)
+        Like.create subject: self, object: object
+      end
+
+      # def likes!(object)
+      #   likes object || raise Exception
+      # end
+
+      def likes?(object)
+        Like.exists? subject: self, object: object
+      end
+
+      def unlike(object)
+        Like.destroy subject: self, object: object
+      end
+
+      # def unlike!(object)
+      #   unlikes object || raise Exception
+      # end
+
+      def method_missing(method_name, *args)
+        method_name_string = method_name.to_s
+        if method_name_string.start_with?('liked_')
+          object_name = method_name_string.remove 'liked_'
+          object_type = object_name.singularize.camelize
+          object_class = object_type.constantize
+
+          if object_class.nil?
+            super
+          else
+            ids = Like.where(subject: self, object_type: object_type).pluck(:object_id)
+            object_class.where id: ids
+          end
+        else
+          super
+        end
+      end
     end
 
   end
