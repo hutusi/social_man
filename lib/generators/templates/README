@@ -1,0 +1,8 @@
+Now, you just have to run the migration using rake command:
+
+   rake db:migrate
+
+and you will be able to add the acts_as_action_subject or acts_as_action_object
+method inside models.
+
+===============================================================================
