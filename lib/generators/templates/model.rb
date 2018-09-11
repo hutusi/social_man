@@ -1,3 +1,3 @@
-class Action < ActiveRecord::Base
+class Action < ApplicationRecord
   include SocialMan::ActionModel
 end
